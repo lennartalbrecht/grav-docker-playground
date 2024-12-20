@@ -1,0 +1,13 @@
+services:
+  grav-playground:
+    image: php:8.2-apache
+    container_name: grav-playground-1.8
+    ports:
+      - "80:80"
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/sh -c "rm -rf /var/www/html/* && git clone -b 1.8 https://github.com/getgrav/grav /var/www/html && chown -R www-data:www-data /var/www/html && cd /var/www/html && bin/grav install && chown -R www-data:www-data /var/www/html && apache2-foreground"
